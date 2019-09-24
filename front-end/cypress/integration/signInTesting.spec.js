@@ -36,6 +36,9 @@ describe("Tests Login Page",()=>{
                 .find('[data-cy=form__passwordInput]')
                 .should('have.attr','name','passwordInput')
                 .and('have.value','')
+
+            cy.get('[data-cy=error__div')
+            .should('not.be.visible')
         })
 
     })
@@ -72,22 +75,45 @@ describe("Tests Login Page",()=>{
             .should('have.value','')
         })
     })
-    context.only('Does the submit button work? ',()=>{
-       it('is button there and can you click it? ',()=>{
-            cy.server()
-            cy.fixture(example.json).as('exampleJSON')
-            cy.route({
-                method:'POST',
-                url:'/api/user',
-                response:'@exampleJSON'
-            })
+    context.only('Does the form submit properly? ',()=>{
+        beforeEach(()=>{
+           cy.visit('/')
+           cy.get('[data-cy=form__submit]').as('form__submit');
+           cy.get('[data-cy=error__div]').as('error__div');
+           cy.get('[data-cy=form]').as('form');
+        })
+        let typedEmail='kevin@google.com';
+        let typedPassword='123abc';
+
+       it('does it error if both are empty?',()=>{
+            cy.get('@form__submit')
+                .click();
+
+            cy.get('@error__div')
+            .contains('email and password are empty')
+        })
+
+       it('does it require full email?',()=>{
+           cy.get('@form')
+            .find('[data-cy=form__passwordInput]')
+            .type(typedPassword)
            
-            cy.get('[data-cy=form__submit]')
-            cy.request('POST','/api/user',{
-                email:typedEmail,
-                password:typedPassword
-            })
+            cy.get('@form__submit')
+                .click();
+
+           cy.get('@error__div')
+            .contains('email is empty')
        })
+       it('does it require full password?',()=>{
+           cy.get('@form')
+            .find('[data-cy=form__emailInput]')
+            .type(typedEmail)
+        
+            cy.get('@form__submit').click();
+            cy.get('@error__div')
+            .contains('password is empty')
+       })
+      
     })
 
 

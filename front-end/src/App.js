@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import {postData} from './lib/service';
 import './App.css';
 
 class App extends React.Component{
@@ -26,7 +27,20 @@ class App extends React.Component{
 
   handleLogin(e){
     e.preventDefault();
-    
+    //check for email && password OR if both empty
+    if(!this.state.passwordInput&&!this.state.emailInput){
+      this.setState({errorMessage:'email and password are empty'})
+    }
+    else if(!this.state.emailInput&&this.state.passwordInput){
+      this.setState({errorMessage:'email is empty'})
+    }
+    else if(this.state.emailInput&&!this.state.passwordInput){
+      this.setState({errorMessage:'password is empty'})
+    }
+    //if not post data to an API.
+    else{
+
+    }
   }
   render(){return (
     <div className="App">
@@ -47,8 +61,11 @@ class App extends React.Component{
         <label data-cy="form__passwordLabel" htmlFor="passwordInput">Password: </label>
         <input data-cy='form__passwordInput' name='passwordInput' type='password' onChange={this.handlePasswordInput} /> 
 
-        <button type='submit' htmlFor="form" data-cy="form__submit">Submit</button>
+        <button type='submit' htmlFor="form" data-cy="form__submit" onClick={this.handleLogin}>Submit</button>
       </form>
+      <div data-cy="error__div" id='error__div'>
+      {this.state.errorMessage?this.state.errorMessage:null}
+      </div>
     </div>
   );
 }
