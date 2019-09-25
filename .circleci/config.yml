@@ -4,7 +4,7 @@ orbs:
 workflows:
   build:
     jobs:
-      
+
       - cypress/run:
           name: starting server
           working_directory: back-end
@@ -14,7 +14,8 @@ workflows:
       - cypress/run:
           name: starting tests
           working_directory: front-end
-          start: npm run cypress:open
+          start: npm run start
+          command: npm run cypress:open
 
 # version: 2
 # jobs:
