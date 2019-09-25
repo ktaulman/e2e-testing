@@ -9,7 +9,9 @@ jobs:
       - checkout
 
       # todo: find nicer solution than constantly "cd"ing to unit_testing
-      - run: cd back-end && npm run dev
+      - run: cd back-end && npm install
+      - run: npm run dev
+
       - run: cd front-end && npm run cypress:open
 
 
