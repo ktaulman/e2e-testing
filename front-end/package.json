@@ -18,7 +18,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
-    "cypress:record":"cypress run --record --key "
+    "cypress:record":"cypress run --record --key d231398f-8814-46ec-a4a8-59cb49e68ba6"
   },
   "eslintConfig": {
     "extends": "react-app"
