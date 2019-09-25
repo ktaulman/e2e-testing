@@ -15,6 +15,7 @@ workflows:
           name: starting tests
           working_directory: front-end
           start: npm run start
+          wait-on: 'http://localhost:3000'
           command: npm run cypress:open
 
 # version: 2
