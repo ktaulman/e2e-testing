@@ -2,18 +2,7 @@ const express=require('express')
 const app=express();
 const bodyParser=require('body-parser')
 const cors = require('cors');
-//controllers
 
-
-//KNEX
-// const db = require('knex')({
-//     client: 'pg',
-//     connection: {
-//       connectionString: process.env.DATABASE_URL,
-//       ssl: true
-//     }
-//   });
-//Database 
 const db=[
     {
         name:"Kevin",
@@ -41,6 +30,22 @@ app.post('/api/login',(req,res)=>{
        res.status(400).json('user and/or email is not valid')
    }
 })
+
+app.put('/api/update',(req,res)=>{
+    let isFound=db[0];
+    if(isFound){
+        const {name,email,password,aboutMe}=req.body;
+        const user=isFound;
+        name.length!==0?user.name=name:null;
+        email.length!==0?user.email=email:null;
+        password.length!==0?user.password=password:null;
+        aboutMe.length!==0?user.aboutMe=aboutMe:null;
+        res.status(200).json(isFound)
+    }else{
+        res.status(400).json('cannot update')
+    }
+})
+
 
 const PORT=process.env.PORT||4000;
 app.listen(PORT,()=>{

@@ -86,6 +86,7 @@ describe("Tests Login Page",()=>{
            cy.get('[data-cy=form__submit]').as('form__submit');
            cy.get('[data-cy=error__div]').as('error__div');
            cy.get('[data-cy=form]').as('form');
+           cy.updateUser()
         })
         let typedEmail='kevin@google.com';
         let typedPassword='123abc';
@@ -119,7 +120,7 @@ describe("Tests Login Page",()=>{
             cy.get('@error__div')
             .contains('password is empty')
        })
-      it.only('does it return a valid signIn',()=>{
+      it('does it return a valid signIn',()=>{
             cy.get('@form')
                 .find('[data-cy=form__emailInput]')
                 .type(typedEmail)

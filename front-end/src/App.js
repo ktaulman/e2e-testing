@@ -4,7 +4,7 @@ import './App.css';
 
 
 class App extends React.Component{
-
+  
   constructor(props){
     super(props);
     this.state={
@@ -14,14 +14,21 @@ class App extends React.Component{
       user:{},
       errorMessage:'',
       updatePrefs:{
-
-      }
+          name:'',
+          email:'',
+          password:'',
+          aboutMe:'',
+          originalEmail:''
+      },
+      updateMessage:''
     }
     //bind functions to component
     this.handleEmailInput=this.handleEmailInput.bind(this);
     this.handlePasswordInput=this.handlePasswordInput.bind(this);
     this.handleLogin=this.handleLogin.bind(this);
-  
+    this.handleUpdateInfo=this.handleUpdateInfo.bind(this);
+    this.handleUpdateButton=this.handleUpdateButton.bind(this);
+    this.handleSignOut=this.handleSignOut.bind(this);
   }
 
   handleEmailInput(e){
@@ -51,19 +58,56 @@ class App extends React.Component{
       .then(response=>{
         this.setState({user:response.data,isLoggedIn:true})
       })
-      .catch((err)=>this.setState({errorMessage:'error logging in'}))
-      
+      .catch((err)=>this.setState({errorMessage:'error logging in'})) 
     }
-   
   }
+
   handleUpdateInfo(e){
-    const {name,value}=e.target;
-    console.log(name,'Name')
-    console.log(value,'Value')
+      let inputName=e.target.name;
+      let inputValue=e.target.value;
+      let stateCopy=this.state;
+      stateCopy.updatePrefs[inputName]=inputValue;
+      stateCopy.updatePrefs[`originalEmail`]=this.state.emailInput;
+      this.setState({stateCopy})
    }
 
+   handleUpdateButton(e){
+     e.preventDefault();
+     const body= this.state.updatePrefs;
+     for(let key in body){
+       if(body[key]===''){
+         this.setState({updateMessage:"Empty Fields Can't Update"})
+         return;
+       }
+     }
+     axios.put('http://localhost:4000/api/update',body)
+      .then(this.setState({updateMessage:'Profile Updated'}))
+      .catch(err=>console.log(err))
+   }
+   handleSignOut(){
+     console.log('handle signout clicked')
+     this.setState({isLoggedIn:false})
+     let defaultState={
+      isLoggedIn:false,
+      emailInput:'',
+      passwordInput:'',
+      user:{},
+      errorMessage:'',
+      updatePrefs:{
+          name:'',
+          email:'',
+          password:'',
+          aboutMe:'',
+          originalEmail:''
+      },
+      updateMessage:''
+    }
+    this.setState(defaultState)
+   }
   //rendering
-  render(){return (
+  render(){
+    console.log(this.state);
+    return (
     <div className="App">
       <header className="App-header">
         <h1 data-cy='navbar__title'>e2e Testing Site</h1>
@@ -89,21 +133,26 @@ class App extends React.Component{
           <div>
           <form data-cy="user__form">
             <label data-cy="user__label"> Name:</label>
-            <input data-cy='user__nameInput' defaultValue={this.state.user.name} name='name' ></input>
+            <input data-cy='user__nameInput' defaultValue={this.state.user.name} name='name' onChange={this.handleUpdateInfo}></input>
             <br/>
+
             <label data-cy="user__label"> Email:</label>
-            <input data-cy='user__emailInput' defaultValue={this.state.user.email} name='email' ></input>
+            <input data-cy='user__emailInput' defaultValue={this.state.user.email} name='email' onChange={this.handleUpdateInfo}></input>
             <br/>
+
             <label data-cy="user__label">Password:</label>
-            <input type='password' data-cy='user__passwordInput' defaultValue={this.state.user.password} name='password'></input>
+            <input type='password' data-cy='user__passwordInput' defaultValue={this.state.user.password} name='password' onChange={this.handleUpdateInfo}></input>
             <br/>
+
             <label data-cy="user__label" >About Me:</label>
-            <textarea data-cy='user__aboutMe' name='aboutMe'>{this.state.user.aboutMe}</textarea>   
+            <textarea data-cy='user__aboutMeInput' name='aboutMe' defaultValue={this.state.user.aboutMe} onChange={this.handleUpdateInfo}></textarea>   
             <br/>
-            <button data-cy="user__update" >Update Information</button>
+
+            <button data-cy="user__updateButton" onClick={this.handleUpdateButton}>Update Information</button>
           </form>
+          <div data-cy="user__status">{this.state.updateMessage?this.state.updateMessage:null}</div>
           </div>
-          <button data-cy="user__signout">Sign-Out</button>
+          <button data-cy="user__signout" onClick={()=>this.handleSignOut()}>Sign-Out</button>
       </div>
       }
     </div>

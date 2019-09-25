@@ -16,3 +16,17 @@ Cypress.Commands.add("login", () => {
     cy.get('@form__submit')
     .click()
 })
+
+Cypress.Commands.add('updateUser',()=>{
+    cy.request({
+        method:'PUT',
+        url:'http://localhost:4000/api/update',
+        body:{
+            name:'Kevin',
+            email:'kevin@google.com',
+            password:'123abc',
+            aboutMe:'My name is Kevin',
+            originalEmail:'kevin@google.com'
+        }
+    })
+})
