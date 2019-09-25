@@ -10,6 +10,7 @@ jobs:
 
       # todo: find nicer solution than constantly "cd"ing to unit_testing
       - run: cd back-end && npm run dev
+      - run: cd front-end && npm run cypress:open
 
 
       # TODO: add caching to speed things up.
