@@ -1,20 +1,34 @@
-version: 2
-jobs:
+# to use orbs, must use version >= 2.1
+version: 2.1
+orbs:
+  # import Cypress orb by specifying an exact version x.y.z
+  # or the latest version 1.x.x using "@1" syntax
+  cypress: cypress-io/cypress@1
+workflows:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:10.15.3
-
-    steps:
-      - checkout
-
-      # todo: find nicer solution than constantly "cd"ing to unit_testing
-      - run: cd back-end && npm install
-      - run: cd front-end && npm install
-      - run: 
-          command: cd back-end && npm run dev
-          background: true 
-      - run: cd front-end && npm run start
+    jobs:
+      # "cypress" is the name of the imported orb
+      # "run" is the name of the job defined in Cypress orb
+      - cypress/run
 
 
-      # TODO: add caching to speed things up.
+# version: 2
+# jobs:
+#   build:
+#     docker:
+#       # specify the version you desire here
+#       - image: circleci/node:10.15.3
+
+#     steps:
+#       - checkout
+
+#       # todo: find nicer solution than constantly "cd"ing to unit_testing
+#       - run: cd back-end && npm install
+#       - run: cd front-end && npm install
+#       - run: 
+#           command: cd back-end && npm run dev
+#           background: true 
+#       - run: cd front-end && npm run start
+
+
+#       # TODO: add caching to speed things up.
