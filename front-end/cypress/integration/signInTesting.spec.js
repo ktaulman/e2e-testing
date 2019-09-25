@@ -36,6 +36,11 @@ describe("Tests Login Page",()=>{
                 .find('[data-cy=form__passwordInput]')
                 .should('have.attr','name','passwordInput')
                 .and('have.value','')
+            
+            cy.get('@form')
+                .find('[data-cy=form__submit]')
+                .contains('Submit')
+
 
             cy.get('[data-cy=error__div')
             .should('not.be.visible')
@@ -75,7 +80,7 @@ describe("Tests Login Page",()=>{
             .should('have.value','')
         })
     })
-    context.only('Does the form submit properly? ',()=>{
+    context('Does the form submit properly? ',()=>{
         beforeEach(()=>{
            cy.visit('/')
            cy.get('[data-cy=form__submit]').as('form__submit');
@@ -84,7 +89,7 @@ describe("Tests Login Page",()=>{
         })
         let typedEmail='kevin@google.com';
         let typedPassword='123abc';
-
+    
        it('does it error if both are empty?',()=>{
             cy.get('@form__submit')
                 .click();
@@ -104,6 +109,7 @@ describe("Tests Login Page",()=>{
            cy.get('@error__div')
             .contains('email is empty')
        })
+
        it('does it require full password?',()=>{
            cy.get('@form')
             .find('[data-cy=form__emailInput]')
@@ -113,7 +119,33 @@ describe("Tests Login Page",()=>{
             cy.get('@error__div')
             .contains('password is empty')
        })
-      
+      it.only('does it return a valid signIn',()=>{
+            cy.get('@form')
+                .find('[data-cy=form__emailInput]')
+                .type(typedEmail)
+            cy.get('@form')
+                .find('[data-cy=form__passwordInput]')
+                .type(typedPassword)
+            cy.get('@form__submit')
+                .click()
+            cy.log('Page should now display homePage')
+            cy.get('[data-cy=homePage]')
+      })
+      it('does it reject a bad signIn?',()=>{
+        cy.get('@form')
+            .find('[data-cy=form__emailInput]')
+            .type("kevin@kevin.com")
+        cy.get('@form')
+            .find('[data-cy=form__passwordInput]')
+            .type(typedPassword)
+        cy.get('@form__submit')
+            .click()
+       
+        cy.get('@error__div')
+            .contains(('error logging in'))
+       
+     })
+     
     })
 
 
