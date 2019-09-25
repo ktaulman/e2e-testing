@@ -11,7 +11,9 @@ jobs:
       # todo: find nicer solution than constantly "cd"ing to unit_testing
       - run: cd back-end && npm install
       - run: cd front-end && npm install
-      - run: cd back-end && npm run dev
+      - run: 
+          command: cd back-end && npm run dev
+          background: true 
       - run: cd front-end && npm run cypress:open
 
 
