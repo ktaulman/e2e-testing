@@ -7,8 +7,10 @@ workflows:
       - cypress/run:
           working_directory: back-end
           start: npm run dev
-          wait-on: 'http://localhost:400'
-
+          wait-on: 'http://localhost:4000'
+      -cypress/run:
+          working_directory: front-end
+          start: npm run cypress:open
 
 # version: 2
 # jobs:
