@@ -1,29 +1,28 @@
-version: 2.1
-orbs:
-  cypress: cypress-io/cypress@1
-workflows:
+
+version: 2
+jobs:
   build:
-    jobs:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:10.15.3
+    steps:
+      -checkout
+  
+  server:
+     docker:
+        - image: circleci/node:10.15.3
+     steps:
+        - run: cd back-end && npm run dev
+workflows:
+    testing:
+      - build 
+      - server:
+          requires:
+            -build
+      
+  
 
-      - cypress/run:
-          name: starting server
-          working_directory: back-end
-          start: npm run dev
-          wait-on: 'http://localhost:4000'
 
-      - cypress/run:
-          name: starting tests
-          working_directory: front-end
-          start: npm run start
-          wait-on: 'http://localhost:3000'
-          command: npm run cypress:open
-
-# version: 2
-# jobs:
-#   build:
-#     docker:
-#       # specify the version you desire here
-#       - image: circleci/node:10.15.3
 
 #     steps:
 #       - checkout
@@ -37,4 +36,25 @@ workflows:
 #       - run: cd front-end && npm run start
 
 
-#       # TODO: add caching to speed things up.
+      # TODO: add caching to speed things up.
+
+
+
+# version: 2.1
+# orbs:
+#   cypress: cypress-io/cypress@1
+# workflows:
+#   build:
+#     jobs:
+#       - cypress/run:
+#           name: starting server
+#           working_directory: back-end
+#           start: npm run dev
+#           wait-on: 'http://localhost:4000'
+
+#       - cypress/run:
+#           name: starting tests
+#           working_directory: front-end
+#           start: npm run start
+#           wait-on: 'http://localhost:3000'
+#           command: npm run cypress:open
