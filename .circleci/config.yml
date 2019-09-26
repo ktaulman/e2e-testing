@@ -14,8 +14,9 @@ jobs:
      steps:
         - run: cd back-end && npm run dev
 workflows:
-version: 2
+    version: 2
     testing:
+      jobs:
       - build 
       - server:
           requires:
