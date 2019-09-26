@@ -20,7 +20,7 @@ Cypress.Commands.add("login", () => {
 Cypress.Commands.add('updateUser',()=>{
     cy.request({
         method:'PUT',
-        url:'http://localhost:4000/api/update',
+        url:'https://backend-e2e.herokuapp.com/api/update',
         body:{
             name:'Kevin',
             email:'kevin@google.com',

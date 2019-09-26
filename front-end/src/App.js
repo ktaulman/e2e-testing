@@ -54,7 +54,7 @@ class App extends React.Component{
     //if not post data to an API.
     else{
       let body={email:this.state.emailInput,password:this.state.passwordInput}
-      axios.post('http://localhost:4000/api/login',body)
+      axios.post('https://backend-e2e.herokuapp.com/api/login',body)
       .then(response=>{
         this.setState({user:response.data,isLoggedIn:true})
       })
@@ -80,7 +80,7 @@ class App extends React.Component{
          return;
        }
      }
-     axios.put('http://localhost:4000/api/update',body)
+     axios.put('https://backend-e2e.herokuapp.com/api/update',body)
       .then(this.setState({updateMessage:'Profile Updated'}))
       .catch(err=>console.log(err))
    }
