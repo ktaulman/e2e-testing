@@ -4,14 +4,14 @@ orbs:
 workflows:
   build:
     jobs:
-      - cypress/install:
+      - cypress/run:
           name: starting server
           working_directory: back-end
           start: npm run dev
           wait-on: 'http://localhost:4000'
 
       - cypress/run:
-          requires: cypress/install
+          requires: cypress/run
           name: starting tests
           working_directory: front-end
           start: npm run start
