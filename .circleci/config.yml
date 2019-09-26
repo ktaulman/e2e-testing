@@ -4,37 +4,14 @@ orbs:
 workflows:
   build:
     jobs:
-
       - cypress/run:
           name: starting server
-          working_directory: back-end
-          start: npm run dev
-          wait-on: 'http://localhost:4000'
+          pre-steps: 
+            - checkout 
+            - run: cd back-end 
+            - start: npm run dev 
+            - wait-on: 'http://localhost:4000'
 
-      - cypress/run:
-          name: starting tests
-          working_directory: front-end
-          start: npm run start
-          wait-on: 'http://localhost:3000'
-          command: npm run cypress:open
+          
 
-# version: 2
-# jobs:
-#   build:
-#     docker:
-#       # specify the version you desire here
-#       - image: circleci/node:10.15.3
-
-#     steps:
-#       - checkout
-
-#       # todo: find nicer solution than constantly "cd"ing to unit_testing
-#       - run: cd back-end && npm install
-#       - run: cd front-end && npm install
-#       - run: 
-#           command: cd back-end && npm run dev
-#           background: true 
-#       - run: cd front-end && npm run start
-
-
-#       # TODO: add caching to speed things up.
+    
