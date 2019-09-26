@@ -6,14 +6,12 @@ workflows:
     jobs:
       - cypress/run:
           name: starting server
-          working_directory: back-end
-          start: npm run dev
-          wait-on: 'http://localhost:4000'
+          pre-steps: 
+            - checkout 
+            - run: cd back-end 
+            - start: npm run dev 
+            - wait-on: 'http://localhost:4000'
 
-      - cypress/run:
-          requires: cypress/run
-          name: starting tests
-          working_directory: front-end
-          start: npm run start
-          wait-on: 'http://localhost:3000'
-          command: npm run cypress:open
+          
+
+    
