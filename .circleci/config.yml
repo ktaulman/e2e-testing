@@ -7,9 +7,6 @@ workflows:
   build:
     jobs:
         - cypress/run:
-            name: starting tests
-            working_directory: front-end
-            checkout 
             start: npm run start
             wait-on: 'http://localhost:3000'
             command: npm run cypress:open
