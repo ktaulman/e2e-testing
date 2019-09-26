@@ -1,5 +1,5 @@
 
-version: 2
+
 jobs:
   build:
     docker:
@@ -14,6 +14,7 @@ jobs:
      steps:
         - run: cd back-end && npm run dev
 workflows:
+version: 2
     testing:
       - build 
       - server:
