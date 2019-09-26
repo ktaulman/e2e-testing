@@ -4,27 +4,13 @@ orbs:
 workflows:
   build:
     jobs:
-      - cypress/run:
-          name: starting server
-<<<<<<< Updated upstream
-          pre-steps: 
-            - checkout 
-            - run: cd back-end 
-            - start: npm run dev 
-            - wait-on: 'http://localhost:4000'
-=======
-          pre-steps:
-          working_directory: back-end
-          start: npm run dev
-          wait-on: 'http://localhost:4000'
-
-      - cypress/run:
-          name: starting tests
-          working_directory: front-end
-          start: npm run start
-          wait-on: 'http://localhost:3000'
-          command: npm run cypress:open
-          spec: /integration/*
+        - cypress/run:
+            name: starting tests
+            working_directory: front-end
+            checkout 
+            start: npm run start
+            wait-on: 'http://localhost:3000'
+            command: npm run cypress:open
 
 # version: 2
 # jobs:
@@ -43,7 +29,6 @@ workflows:
 #           command: cd back-end && npm run dev
 #           background: true 
 #       - run: cd front-end && npm run start
->>>>>>> Stashed changes
 
           
 
